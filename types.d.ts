@@ -9,3 +9,9 @@ type UserType = {
   forgotPasswordToken?: string;
   forgotPasswordTokenExpiry?: string | number;
 };
+
+type TokenDataType = {
+  id: string;
+  email: string;
+  username: string;
+};
