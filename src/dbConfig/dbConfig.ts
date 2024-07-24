@@ -6,7 +6,7 @@ export default async function connectDB() {
     await mongoose.connect(process.env.MONGO_URI!);
     const connection = mongoose.connection;
     //to verify connection
-    connection.on("connected", () => console.log("connected"));
+    connection.on("connected", () => console.log("MongoDB connected"));
     //event to verify error in connection
     connection.on("error", (error) =>
       console.log("Error in DB Connection: ", error)

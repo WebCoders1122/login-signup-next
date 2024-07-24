@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/helpers/mailer";
 import bcryptjs from "bcryptjs";
 import { User } from "@/model/userModel";
+import connectDB from "@/dbConfig/dbConfig";
 
+connectDB();
 export async function Post(request: NextRequest) {
   const { email } = await request.json();
   const resetUser = await User.findOne({ email: email });

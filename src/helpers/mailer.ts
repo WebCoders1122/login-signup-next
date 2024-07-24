@@ -7,6 +7,7 @@ type Props = {
   userID: string;
 };
 export const sendEmail = async ({ email, emailType, userID }: Props) => {
+  console.log("sendEmail");
   try {
     const salt = await bcryptjs.genSalt(10);
     const hashedToken = await bcryptjs.hash(userID.toString(), salt);
@@ -25,8 +26,8 @@ export const sendEmail = async ({ email, emailType, userID }: Props) => {
       });
     }
     var transport = nodemailer.createTransport({
-      host: "live.smtp.mailtrap.io",
-      port: +process.env.EMAIL_NAME!,
+      host: "sandbox.smtp.mailtrap.io",
+      port: 2525,
       auth: {
         user: process.env.EMAIL_NAME,
         pass: process.env.EMAIL_PASS,
@@ -34,7 +35,7 @@ export const sendEmail = async ({ email, emailType, userID }: Props) => {
     });
     // mail options to be sent to user
     const emailOptions = await transport.sendMail({
-      from: "webcoders1122@gmail.com", // sender address
+      from: "webcoders1122@abc.com", // sender address
       to: email, // list of receivers
       subject:
         emailType === "VERIFY"
