@@ -17,7 +17,7 @@ export const sendEmail = async ({ email, emailType, userID }: Props) => {
         verifyToken: hashedToken,
         verifyTokenExpiry,
       });
-    } else if (emailType === "FORGOT_PASS") {
+    } else if (emailType === "RESET") {
       const forgotPasswordTokenExpiry = Date.now() + 3600000;
       const saveForgotPassInfo = await User.findByIdAndUpdate(userID, {
         forgotPasswordToken: hashedToken,
