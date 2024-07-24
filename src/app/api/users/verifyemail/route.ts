@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
       verifyTokenExpiry: { $gt: Date.now() },
     });
     // user not fount or token expired
+    console.log(user);
     if (!user) {
       return NextResponse.json(
         { message: "User not Exists or Link Expired" },
