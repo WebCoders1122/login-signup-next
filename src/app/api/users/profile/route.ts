@@ -3,7 +3,6 @@ import { User } from "@/model/userModel";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  
   try {
     const token = request.cookies.get("token")?.value || "";
     //returning if !token

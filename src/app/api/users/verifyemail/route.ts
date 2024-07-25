@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     console.log(user);
     if (!user) {
       return NextResponse.json(
-        { message: "User not Exists or Link Expired" },
+        { message: "User not Exists or Link Expired", success: false },
         {
           status: 401,
         }
@@ -27,16 +27,21 @@ export async function POST(request: NextRequest) {
     //changing properties of user in DB
     console.log("User Found to verify");
     user.isVerified = true;
-    user.verifyToken = null;
-    user.verifyTokenExpiry = null;
+    user.verifyToken = undefined;
+    user.verifyTokenExpiry = undefined;
     const updateUser = await user.save();
-
+    //user to be send to front end
+    const responseUser = updateUser.select(
+      "-password -isVerified -isAdmin -verifyToken -verifyTokenExpiry -__v"
+    );
     //return response on successful user verification
-    return NextResponse.json({
-      status: 200,
-      statusText: "Registered successfully",
-      success: true,
-    });
+    return NextResponse.json(
+      { message: "Verified Successfully!", success: true, user: responseUser },
+      {
+        status: 200,
+        statusText: "Registered successfully",
+      }
+    );
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }
