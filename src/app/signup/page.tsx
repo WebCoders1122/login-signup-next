@@ -33,7 +33,7 @@ const SignupPage = () => {
   return (
     <div className='flex flex-col items-center sm:justify-center min-h-screen w-full'>
       <form
-        className='max-w-md w-full mx-auto bg-gray-900 rounded-lg overflow-hidden p-5'
+        className='max-w-md w-full mx-auto bg-gray-50 shadow dark:bg-gray-900 rounded-lg overflow-hidden p-5'
         onSubmit={handleRegister}>
         <h2 className='scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center my-5 mb-10'>
           Please Fill form to Sign up
@@ -116,7 +116,7 @@ const SignupPage = () => {
           Already Registered?{" "}
           <Link
             href='/login'
-            className='bg-gray-700 py-1 px-2 rounded'>
+            className='bg-gray-200 dark:bg-gray-700 py-1 px-2 rounded'>
             {" "}
             Login Here
           </Link>

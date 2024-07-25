@@ -7,7 +7,7 @@ export default function Home() {
       <h1 className='scroll-m-20 text-3xl md:text-4xl font-extrabold tracking-tight text-center lg:text-5xl'>
         Welcome to Next Auth Blog
       </h1>
-      <p className='text-md md:text-xl text-center text-gray-400 mt-10'>
+      <p className='text-md md:text-xl text-center text-gray-800 dark:text-gray-400 mt-10'>
         Please Signup or Login to Continue.
       </p>
       <div className='flex items-center gap-5 mt-5'>
