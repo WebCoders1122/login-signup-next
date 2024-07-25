@@ -7,6 +7,7 @@ import { sendEmail } from "@/helpers/mailer";
 connectDB(); //this needs in next js to connect DB on every Route of API
 
 export async function POST(request: NextRequest) {
+  console.log("signup route");
   try {
     const { username, email, password } = await request.json();
     console.log({ username, email, password });
@@ -14,7 +15,10 @@ export async function POST(request: NextRequest) {
     const user = await User.findOne({ email: email });
     console.log(user);
     if (user) {
-      return NextResponse.json({ message: "User already Exists" });
+      return NextResponse.json(
+        { message: "User already Exists" },
+        { status: 400 }
+      );
     }
 
     //  else if (user.name === username) {
@@ -34,8 +38,8 @@ export async function POST(request: NextRequest) {
     await sendEmail({ email, emailType: "VERIFY", userID: savedUser._id });
     //return response on successful user creation
     return NextResponse.json(
-      { savedUser },
-      { status: 201, statusText: "Registered successfully" }
+      { savedUser, message: "Registered! Check Email to Verify" },
+      { status: 201 }
     );
   } catch (error) {
     return NextResponse.json(error);
