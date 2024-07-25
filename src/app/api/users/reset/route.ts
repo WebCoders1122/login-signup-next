@@ -5,7 +5,7 @@ import { User } from "@/model/userModel";
 import connectDB from "@/dbConfig/dbConfig";
 
 connectDB();
-export async function Post(request: NextRequest) {
+export async function POST(request: NextRequest) {
   const { email } = await request.json();
   const resetUser = await User.findOne({ email: email });
   if (!resetUser)
@@ -19,5 +19,5 @@ export async function Post(request: NextRequest) {
     emailType: "RESET",
     userID: resetUser._id,
   });
-  return emailResponse;
+  return NextResponse.json({ message: "success" });
 }

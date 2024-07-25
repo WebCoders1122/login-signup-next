@@ -1,21 +1,20 @@
 "use client";
 import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { setTimeout } from "timers/promises";
 
 const VerifyEmail = () => {
   const [token, setToken] = useState("");
   //next router
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   useEffect(() => {
     //1st approach to get search params ==> this is better in next js
-    const token = searchParams.get("token") || "";
-    setToken(token);
+    // const token = searchParams.get("token") || "";
     //2nd approach to get searh param
-    // const token = window.location.search.split("=")[1];
+    const token = window.location.search.split("=")[1];
+    setToken(token);
   }, []);
 
   //handle verify
@@ -26,7 +25,7 @@ const VerifyEmail = () => {
       });
       console.log(response);
       toast.success(response.data.message);
-      window.setTimeout(() => {
+      setTimeout(() => {
         router.push(`/profile/${response.data.user.username}`);
       }, 1000);
     } catch (error: any) {
