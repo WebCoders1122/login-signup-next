@@ -8,11 +8,13 @@ connectDB(); //this needs in next js to connect DB on every Route of API
 
 export async function POST(request: NextRequest) {
   try {
-    const response = NextResponse.json({
-      status: 200,
-      success: true,
-      statusText: "Logged out successfully",
-    });
+    const response = NextResponse.json(
+      {
+        statusText: "Logged out successfully",
+        success: true,
+      },
+      { status: 200 }
+    );
     // generating cookie with same name so that it expires immediatley after resetting in browser
     response.cookies.set("token", "", {
       httpOnly: true,

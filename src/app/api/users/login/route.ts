@@ -12,18 +12,21 @@ export async function POST(request: NextRequest) {
     console.log({ email, password });
     //response for user not found
     const user = await User.findOne({ email: email });
+    console.log(user);
     if (!user) {
-      return NextResponse.json({ status: 400, message: "User not Exists" });
+      return NextResponse.json({ message: "User not Exists" }, { status: 400 });
     }
     console.log("user exists on login");
 
     //verifying hashedPassword
     const isValidPassword = await bcryptjs.compare(password, user.password);
     if (!isValidPassword)
-      return NextResponse.json({
-        status: 400,
-        message: "Invalid Email or Password",
-      });
+      return NextResponse.json(
+        {
+          message: "Invalid Email or Password",
+        },
+        { status: 400 }
+      );
     console.log("Email and password matched at login");
 
     // making token for user
@@ -37,11 +40,13 @@ export async function POST(request: NextRequest) {
     });
     console.log(token, "Token Value at login");
     // generating response and includig cookie in it
-    const response = NextResponse.json({
-      status: 200,
-      success: true,
-      statusText: "Logged In successfully",
-    });
+    const response = NextResponse.json(
+      { message: "Login Success", username: user.username },
+      {
+        status: 200,
+        statusText: "Logged In successfully",
+      }
+    );
 
     response.cookies.set("token", token, {
       httpOnly: true,
