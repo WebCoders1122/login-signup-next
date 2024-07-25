@@ -42,11 +42,11 @@ const ProfilePage = () => {
 
   return (
     <div className='flex flex-col items-center justify-center min-h-screen w-full'>
-      <h2 className='mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0'>
+      <h2 className='mt-10 scroll-m-20 border-b pb-2 text-2xl sm:text-3xl font-semibold tracking-tight transition-colors first:mt-0'>
         Welcome <span className='text-blue-500 uppercase'>{user.username}</span>
         !
       </h2>
-      <h4 className='scroll-m-20 text-gray-400 text-xl font-semibold tracking-tight mt-5'>
+      <h4 className='scroll-m-20 text-center text-md text-gray-400 md:text-xl font-semibold tracking-tight mt-5'>
         Your email address is "<span className='text-white'>{user.email}</span>"
       </h4>
       <div className='flex items-center justify-center text-sm text-center mt-5 max-w-sm w-full'>

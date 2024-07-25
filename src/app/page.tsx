@@ -3,11 +3,11 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen flex-col items-center p-5 md:p-24'>
-      <h1 className='scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl'>
+    <main className='flex min-h-screen flex-col items-center py-10 p-5 md:p-24'>
+      <h1 className='scroll-m-20 text-3xl md:text-4xl font-extrabold tracking-tight text-center lg:text-5xl'>
         Welcome to Next Auth Blog
       </h1>
-      <p className='text-xl text-gray-400 mt-10'>
+      <p className='text-md md:text-xl text-center text-gray-400 mt-10'>
         Please Signup or Login to Continue.
       </p>
       <div className='flex items-center gap-5 mt-5'>
