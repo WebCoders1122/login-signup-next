@@ -10,10 +10,8 @@ export async function POST(request: NextRequest) {
   console.log("signup route");
   try {
     const { username, email, password } = await request.json();
-    console.log({ username, email, password });
     //response for duplicate username or email
     const user = await User.findOne({ email: email });
-    console.log(user);
     if (user) {
       return NextResponse.json(
         { message: "User already Exists" },
@@ -32,10 +30,11 @@ export async function POST(request: NextRequest) {
       username,
       password: hashedPassword,
     });
-    console.log(newUser);
     const savedUser = await newUser.save();
     //to send email
+    console.log("signup, to be send");
     await sendEmail({ email, emailType: "VERIFY", userID: savedUser._id });
+    console.log("signup, emailsent");
     //return response on successful user creation
     return NextResponse.json(
       { savedUser, message: "Registered! Check Email to Verify" },

@@ -23,10 +23,9 @@ const VerifyEmail = () => {
       const response = await axios.post("/api/users/verifyemail", {
         token: token,
       });
-      console.log(response);
       toast.success(response.data.message);
       setTimeout(() => {
-        router.push(`/profile/${response.data.user.username}`);
+        router.push(`/login`);
       }, 1000);
     } catch (error: any) {
       toast.error(error.response.data.message);

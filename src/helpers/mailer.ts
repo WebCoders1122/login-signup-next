@@ -1,18 +1,21 @@
 import nodemailer from "nodemailer";
 import bcryptjs from "bcryptjs";
 import { User } from "@/model/userModel";
+import { v4 as uuidv4 } from "uuid";
 type Props = {
   email: string;
   emailType: string;
   userID: string;
 };
 export const sendEmail = async ({ email, emailType, userID }: Props) => {
-  console.log("sendEmail");
   try {
-    const salt = await bcryptjs.genSalt(10);
-    const hashedToken = await bcryptjs.hash(userID.toString(), salt);
+    console.log("sendEmail");
+
+    const hashedToken = uuidv4();
+    console.log(hashedToken);
     //checking the email type and saving tokens to DB
     if (emailType === "VERIFY") {
+      console.log("verify");
       const verifyTokenExpiry = Date.now() + 3600000;
       const saveVerifyInfo = await User.findByIdAndUpdate(userID, {
         verifyToken: hashedToken,
@@ -25,24 +28,30 @@ export const sendEmail = async ({ email, emailType, userID }: Props) => {
         forgotPasswordTokenExpiry,
       });
     }
-    var transport = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 2525,
+    console.log("after verify");
+
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.EMAIL_NAME,
-        pass: process.env.EMAIL_PASS,
+        user: "webuser0808@gmail.com",
+        pass: process.env.GMAIL_PASS,
       },
     });
+    console.log("transporter success");
+
     // mail options to be sent to user
-    const emailOptions = await transport.sendMail({
-      from: "webcoders1122@abc.com", // sender address
-      to: email, // list of receivers
+    const emailOptions = await transporter.sendMail({
+      from: "webuser0808@gmail.com",
+      to: email,
       subject:
         emailType === "VERIFY"
           ? "Verify Your Email Address"
           : "Reset your Password", // Subject line
       //TODO to be setup later
-      text: "Hello world?", // plain text body
+      // text: "Hello world?", // plain text body
       html: `<p>Click <a href="${
         process.env.DOMAIN
       }/verifyemail?token=${hashedToken}">here</a> to ${
@@ -53,8 +62,19 @@ export const sendEmail = async ({ email, emailType, userID }: Props) => {
     }/verifyemail?token=${hashedToken}
     </p>`, // html body
     });
+    console.log("emailoptions success");
+
     //sending email
-    const emailResponse = await transport.sendMail(emailOptions);
+    const emailResponse = transporter.sendMail(emailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email: ", error);
+      } else {
+        console.log("Email sent: ", info.response);
+      }
+    });
+    console.log("email response success");
+
+    console.log(emailOptions, "sent");
     return emailResponse;
   } catch (error) {
     console.log("mailer.ts file error: ", error);

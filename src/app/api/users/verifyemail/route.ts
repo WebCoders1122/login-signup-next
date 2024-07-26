@@ -15,7 +15,6 @@ export async function POST(request: NextRequest) {
       verifyTokenExpiry: { $gt: Date.now() },
     });
     // user not fount or token expired
-    console.log(user);
     if (!user) {
       return NextResponse.json(
         { message: "User not Exists or Link Expired", success: false },
@@ -25,21 +24,23 @@ export async function POST(request: NextRequest) {
       );
     }
     //changing properties of user in DB
-    console.log("User Found to verify");
+    console.log("User Found to verify", user);
     user.isVerified = true;
     user.verifyToken = undefined;
     user.verifyTokenExpiry = undefined;
     const updateUser = await user.save();
+    console.log(updateUser, "updated user");
     //user to be send to front end
-    const responseUser = updateUser.select(
-      "-password -isVerified -isAdmin -verifyToken -verifyTokenExpiry -__v"
-    );
+    const responseUser = {
+      username: updateUser.username,
+      email: updateUser.email,
+    };
+    console.log(responseUser, "response user");
     //return response on successful user verification
     return NextResponse.json(
-      { message: "Verified Successfully!", success: true, user: responseUser },
+      { message: "Verified Successfully!", user: responseUser },
       {
         status: 200,
-        statusText: "Registered successfully",
       }
     );
   } catch (error) {
